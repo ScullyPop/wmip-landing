@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/:skin(sticky|pink|izzy)", "destination": "/index.html" }
+  ]
+}
