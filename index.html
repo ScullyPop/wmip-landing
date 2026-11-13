@@ -91,8 +91,8 @@ header{position:fixed;inset:0 0 auto 0;z-index:50;background:var(--hdr-bg);backd
 .lock-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--head);white-space:nowrap}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--acc);animation:pulse 1.6s ease-in-out infinite;flex:none}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(var(--acc-rgb),.6)}50%{box-shadow:0 0 0 6px rgba(var(--acc-rgb),0)}}
-@media(max-width:1120px){.nav-right .lock-tag{display:none}}
-@media(max-width:900px){.nav-links{display:none}}
+@media(max-width:1280px){.nav-right .lock-tag{display:none}}
+@media(max-width:1040px){.nav-links{display:none}}
 
 /* hero */
 .hero{padding:calc(64px + clamp(40px,7vw,88px)) 0 clamp(48px,7vw,88px);background:radial-gradient(ellipse 70% 60% at 75% 40%,rgba(var(--acc-rgb),.18),transparent 70%),var(--bg-deep);border-bottom:1px solid var(--line)}
@@ -230,7 +230,7 @@ header{position:fixed;inset:0 0 auto 0;z-index:50;background:var(--hdr-bg);backd
 .final h2{font-size:clamp(44px,7vw,92px)}
 .final p{max-width:620px;font-size:18px;color:var(--gray-4)}
 
-footer{border-top:1px solid var(--line);padding:28px 0 120px;background:var(--bg-deep)}
+footer{border-top:1px solid var(--line);padding:28px 0;background:var(--bg-deep)}
 .foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--gray-2)}
 .foot a:hover{color:var(--head)}
 
@@ -468,46 +468,43 @@ footer{border-top:1px solid var(--line);padding:28px 0 120px;background:var(--bg
 [data-skin="izzy"] footer{background:#fff}
 
 /* =====================================================================
-   THE DIAL — a 3D knob on a squared metal plate. Click it to turn to the
-   next skin, click a lamp to jump, arrow keys and mouse wheel work too.
-   Same hardware in every skin.
+   THE DIAL — a slim 3D knob on a squared metal plate, in the top bar next
+   to Claim Seat. Click the knob for the next skin, click a light to jump,
+   arrow keys and mouse wheel work too. Same hardware in every skin.
    ===================================================================== */
-.dial{position:fixed;right:18px;bottom:18px;z-index:80;width:224px;height:176px;user-select:none;-webkit-user-select:none;
+.dial{position:relative;display:flex;align-items:center;gap:12px;height:46px;padding:0 12px 0 7px;flex:none;user-select:none;-webkit-user-select:none;
   background:linear-gradient(160deg,#3a3a3a,#161616 55%,#0c0c0c);
-  border:1px solid #000;box-shadow:0 18px 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.14),inset 0 -2px 0 rgba(0,0,0,.6);
-  font-family:'Montserrat',system-ui,sans-serif;transition:transform .3s var(--ease-out),opacity .3s}
+  border:1px solid #000;box-shadow:0 4px 12px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.14),inset 0 -2px 0 rgba(0,0,0,.6);
+  font-family:'Montserrat',system-ui,sans-serif}
 .dial::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;
   background:repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px)}
-.dial .screw{position:absolute;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#9a9a9a,#2a2a2a 70%);box-shadow:inset 0 0 0 1px #000}
-.dial .screw::after{content:"";position:absolute;left:1px;right:1px;top:3.5px;height:1px;background:#111;transform:rotate(40deg)}
-.dial .s1{top:7px;left:7px}.dial .s2{top:7px;right:7px}.dial .s3{bottom:7px;left:7px}.dial .s4{bottom:7px;right:7px}
-.dial-cap{position:absolute;left:0;right:0;bottom:9px;text-align:center;font-size:9px;font-weight:800;letter-spacing:.3em;color:#7a7a7a;text-transform:uppercase}
-.dial-cap b{color:#d6d6d6;font-weight:900}
-.lamp{position:absolute;width:56px;margin-left:-28px;transform:translateY(calc(-100% + 7px));display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:0;cursor:pointer;color:#8a8a8a;font:800 9px/1 'Montserrat',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:0}
-.lamp i{width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#4a4a4a,#151515 70%);box-shadow:inset 0 1px 2px rgba(0,0,0,.8),0 0 0 2px #0a0a0a,0 1px 0 2px rgba(255,255,255,.08);transition:background .25s,box-shadow .25s}
+.lamps{display:flex;gap:9px;position:relative}
+.lamp{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;cursor:pointer;color:#8a8a8a;font:800 8px/1 'Montserrat',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:2px 0}
+.lamp i{width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#4a4a4a,#151515 70%);box-shadow:inset 0 1px 2px rgba(0,0,0,.8),0 0 0 2px #0a0a0a,0 1px 0 2px rgba(255,255,255,.08);transition:background .25s,box-shadow .25s}
 .lamp:hover{color:#d6d6d6}
 .lamp[aria-checked="true"]{color:#fff}
-.lamp[aria-checked="true"] i{background:radial-gradient(circle at 35% 30%,#fff,var(--lc) 45%,var(--lc) 100%);box-shadow:0 0 0 2px #0a0a0a,0 0 10px 2px var(--lc),0 0 26px 6px var(--lc)}
+.lamp[aria-checked="true"] i{background:radial-gradient(circle at 35% 30%,#fff,var(--lc) 45%,var(--lc) 100%);box-shadow:0 0 0 2px #0a0a0a,0 0 8px 2px var(--lc),0 0 18px 4px var(--lc)}
 .lamp.flash i{animation:lampflash .7s ease-out}
-@keyframes lampflash{0%{transform:scale(1)}30%{transform:scale(1.5)}100%{transform:scale(1)}}
+@keyframes lampflash{0%{transform:scale(1)}30%{transform:scale(1.6)}100%{transform:scale(1)}}
 .lamp[data-skin="wmip"]{--lc:#ff2e2e}.lamp[data-skin="sticky"]{--lc:#ffd60a}.lamp[data-skin="pink"]{--lc:#ff7fa0}.lamp[data-skin="izzy"]{--lc:#2cff7a}
-.knob{position:absolute;left:50%;top:106px;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;border:0;padding:0;cursor:pointer;background:none;
-  box-shadow:0 0 0 5px #0a0a0a,0 0 0 6px rgba(255,255,255,.08),0 14px 22px rgba(0,0,0,.7)}
-.knob:focus-visible{outline:2px solid #fff;outline-offset:6px}
+.knob{position:relative;width:34px;height:34px;flex:none;border-radius:50%;border:0;padding:0;cursor:pointer;background:none;
+  box-shadow:0 0 0 3px #0a0a0a,0 0 0 4px rgba(255,255,255,.08),0 5px 9px rgba(0,0,0,.7)}
+.knob:focus-visible{outline:2px solid #fff;outline-offset:5px}
 .knob-face{position:absolute;inset:0;border-radius:50%;transform:rotate(var(--rot,-63deg));transition:transform .55s cubic-bezier(.34,1.56,.64,1);
-  background:repeating-conic-gradient(from 0deg,#2b2b2b 0 5deg,#454545 5deg 10deg);
-  box-shadow:inset 0 3px 3px rgba(255,255,255,.25),inset 0 -6px 8px rgba(0,0,0,.7)}
-.knob-face::before{content:"";position:absolute;inset:11px;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,#2b2b2b 0 7deg,#474747 7deg 14deg);
+  box-shadow:inset 0 2px 2px rgba(255,255,255,.25),inset 0 -3px 5px rgba(0,0,0,.7)}
+.knob-face::before{content:"";position:absolute;inset:5px;border-radius:50%;
   background:radial-gradient(circle at 38% 30%,#6a6a6a 0,#2c2c2c 45%,#141414 100%);
-  box-shadow:inset 0 2px 2px rgba(255,255,255,.3),inset 0 -3px 5px rgba(0,0,0,.8),0 2px 5px rgba(0,0,0,.6)}
-.knob-face::after{content:"";position:absolute;inset:11px;border-radius:50%;pointer-events:none;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.3),inset 0 -2px 3px rgba(0,0,0,.8),0 1px 3px rgba(0,0,0,.6)}
+.knob-face::after{content:"";position:absolute;inset:5px;border-radius:50%;pointer-events:none;
   background:conic-gradient(from 200deg,transparent 0 20deg,rgba(255,255,255,.18) 40deg,transparent 70deg 200deg,rgba(255,255,255,.1) 230deg,transparent 260deg)}
-.pointer{position:absolute;left:50%;top:14px;width:5px;height:18px;margin-left:-2.5px;border-radius:3px;z-index:2;background:var(--lc,#ff2e2e);box-shadow:0 0 8px var(--lc,#ff2e2e),0 0 16px var(--lc,#ff2e2e);transition:background .25s,box-shadow .25s}
-.dial-flash{position:fixed;inset:0;z-index:79;pointer-events:none;opacity:0;background:radial-gradient(circle at calc(100% - 130px) calc(100% - 95px),var(--lc,#fff),transparent 60%)}
+.pointer{position:absolute;left:50%;top:6px;width:3px;height:9px;margin-left:-1.5px;border-radius:2px;z-index:2;background:var(--lc,#ff2e2e);box-shadow:0 0 5px var(--lc,#ff2e2e),0 0 10px var(--lc,#ff2e2e);transition:background .25s,box-shadow .25s}
+.dial-flash{position:fixed;inset:0;z-index:79;pointer-events:none;opacity:0;background:radial-gradient(circle at calc(100% - 240px) 32px,var(--lc,#fff),transparent 55%)}
 .dial-flash.go{animation:pageflash .6s ease-out}
-@keyframes pageflash{0%{opacity:0}25%{opacity:.35}100%{opacity:0}}
-@media(max-width:900px){.hero-shot{margin-top:0}}
-@media(max-width:560px){.dial{transform:scale(.6);transform-origin:bottom right;right:8px;bottom:8px}}
+@keyframes pageflash{0%{opacity:0}25%{opacity:.3}100%{opacity:0}}
+/* phones: the knob alone (tap it to turn) */
+@media(max-width:600px){.lamps{display:none}.dial{height:42px;padding:0 7px;gap:0}html[data-skin] header .wordmark{font-size:14px}.nav{gap:10px}.nav-right{gap:8px}.nav .btn{padding:11px 12px}}
+@media(max-width:360px){.nav .btn{display:none}}
 
 @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.ticker-track,.dot{animation:none}html{scroll-behavior:auto}.knob-face{transition:none}.dial-flash.go,.lamp.flash i,.cd-boxes span,.deco{animation:none}}
 </style>
@@ -525,6 +522,15 @@ footer{border-top:1px solid var(--line);padding:28px 0 120px;background:var(--bg
     </nav>
     <div class="nav-right">
       <span class="lock-tag"><span class="dot" aria-hidden="true"></span>$19/mo Lifetime Lock</span>
+      <div class="dial" id="dial" role="radiogroup" aria-label="Page skin">
+        <button class="knob" type="button" id="knob" aria-label="Turn to the next skin"><span class="knob-face" id="knobFace"><span class="pointer" id="pointer"></span></span></button>
+        <div class="lamps">
+          <button class="lamp" type="button" role="radio" data-skin="wmip" data-a="-63">WMIP<i></i></button>
+          <button class="lamp" type="button" role="radio" data-skin="sticky" data-a="-21">Sticky<i></i></button>
+          <button class="lamp" type="button" role="radio" data-skin="pink" data-a="21">Pink<i></i></button>
+          <button class="lamp" type="button" role="radio" data-skin="izzy" data-a="63">Izzy<i></i></button>
+        </div>
+      </div>
       <a class="btn btn-primary" href="https://www.skool.com/well-make-it-pop-1318/about" target="_blank" rel="noopener">Claim Seat</a>
     </div>
   </div>
@@ -735,17 +741,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 120px;background:var(--bg
   </div>
 </footer>
 
-<!-- THE DIAL -->
 <div class="dial-flash" id="dialFlash" aria-hidden="true"></div>
-<div class="dial" id="dial" role="radiogroup" aria-label="Page skin">
-  <span class="screw s1"></span><span class="screw s2"></span><span class="screw s3"></span><span class="screw s4"></span>
-  <button class="lamp" type="button" role="radio" data-skin="wmip" data-a="-63">WMIP<i></i></button>
-  <button class="lamp" type="button" role="radio" data-skin="sticky" data-a="-21">Sticky<i></i></button>
-  <button class="lamp" type="button" role="radio" data-skin="pink" data-a="21">Pink<i></i></button>
-  <button class="lamp" type="button" role="radio" data-skin="izzy" data-a="63">Izzy<i></i></button>
-  <button class="knob" type="button" id="knob" aria-label="Turn to the next skin"><span class="knob-face" id="knobFace"><span class="pointer" id="pointer"></span></span></button>
-  <span class="dial-cap">Pick your <b>skin</b></span>
-</div>
 
 <script>
 // ticker
@@ -849,7 +845,6 @@ if(document.documentElement.getAttribute('data-skin')==='sticky')startRibbon();
       lamps=[].slice.call(dial.querySelectorAll('.lamp')),order=lamps.map(function(l){return l.dataset.skin}),
       R=66,CX=112,CY=106,actx=null,turns=0;
   // place lamps on an arc above the knob
-  lamps.forEach(function(l){var a=+l.dataset.a*Math.PI/180;l.style.left=(CX+R*Math.sin(a))+'px';l.style.top=(CY-R*Math.cos(a))+'px';});
   function click(){ // short mechanical click, made in code
     try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();var t=actx.currentTime,o=actx.createOscillator(),g=actx.createGain();
       o.type='square';o.frequency.setValueAtTime(1800,t);o.frequency.exponentialRampToValueAtTime(300,t+.04);
