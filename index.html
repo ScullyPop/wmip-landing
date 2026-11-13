@@ -110,17 +110,67 @@ header{position:fixed;inset:0 0 auto 0;z-index:50;background:var(--hdr-bg);backd
 .hero-shot .cap{position:absolute;left:0;bottom:0;background:var(--acc);color:var(--on-acc);font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:8px 12px}
 @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-shot{order:-1}}
 
-/* hero person: cut-out, no box */
+/* hero pipeline: the Daily Pop, running itself. Orbs travel the loop, each
+   step lights up as an orb passes. Colors come from the skin. */
 .hero-grid{grid-template-columns:1.1fr .9fr}
-.hero-person{position:relative;justify-self:center;align-self:end;width:auto;max-width:100%;margin-bottom:calc(-1 * clamp(8px,2vw,24px))}
-.hero-person::before{content:"";position:absolute;inset:8% 4% 10%;border-radius:50%;background:radial-gradient(circle,rgba(var(--acc-rgb),.42),transparent 68%);filter:blur(6px);z-index:-1}
-.hero-person img{width:auto;max-width:100%;height:auto;max-height:clamp(260px,calc(100svh - 470px),640px);-webkit-mask-image:linear-gradient(to bottom,#000 78%,transparent 99%);mask-image:linear-gradient(to bottom,#000 78%,transparent 99%);filter:drop-shadow(0 18px 30px rgba(0,0,0,.28))}
 .hero-grid{position:relative;z-index:1}
+.pipe{position:relative;justify-self:center;align-self:center;width:min(92%,clamp(320px,calc(100svh - 380px),540px));margin-right:clamp(0px,3vw,56px);aspect-ratio:1;
+  --orb:#14d8c4;--orb-rgb:20,216,196;--ring:rgba(255,255,255,.22);--node-bg:var(--panel);--node-line:var(--line-strong)}
+.pipe svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.pipe-ring{fill:none;stroke:var(--ring);stroke-width:.45;stroke-dasharray:.8 1.6}
+.pipe-glow{fill:none;stroke:rgba(var(--orb-rgb),.14);stroke-width:4}
+.pipe-orb{fill:var(--orb);filter:drop-shadow(0 0 1.4px var(--orb)) drop-shadow(0 0 3.5px rgba(var(--orb-rgb),.9))}
+.pipe-trail{fill:var(--orb)}
+.pipe-chord{stroke:var(--ring);stroke-width:.18;opacity:.3}
+.pipe-link{stroke:var(--ring);stroke-width:.18;opacity:.55}
+.pipe-dot{fill:var(--dot,var(--gray-3));opacity:.6}
+[data-skin="sticky"] .pipe-dot{fill:#fff;stroke:#000;stroke-width:.25}
+[data-skin="pink"] .pipe-dot{fill:#ffc7c6;opacity:.7}
+[data-skin="izzy"] .pipe-dot{fill:#fff;opacity:.85}
+[data-skin="sticky"] .pipe-chord,[data-skin="sticky"] .pipe-link{opacity:.35}
+.pipe-node{position:absolute;width:28%;transform:translate(-50%,-50%);z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px;
+  --sz:clamp(42px,4.8vw,64px);transition:transform .35s var(--ease-pop)}
+.pipe-node .pi{position:relative;display:grid;place-items:center;width:var(--sz);height:var(--sz);border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,var(--node-hi,#2a2a2a),var(--node-bg2,#0a0a0a) 70%);border:2px solid var(--node-ring,var(--acc));color:var(--node-ic,var(--acc));
+  box-shadow:0 0 0 5px rgba(var(--acc-rgb),.10),0 8px 18px rgba(0,0,0,.35);transition:color .3s,border-color .3s,box-shadow .3s,background .3s}
+.pipe-node .pi svg{width:46%;height:46%;stroke-linecap:round;stroke-linejoin:round}
+.pipe-node .n{position:absolute;top:-6px;left:50%;margin-left:calc(var(--sz) / 2 - 8px);width:20px;height:20px;display:grid;place-items:center;z-index:3;
+  background:var(--acc);color:var(--on-acc);font:800 10px/1 'Montserrat',sans-serif;border-radius:50%;box-shadow:0 0 0 2px var(--bg-deep)}
+.pipe-node b{display:block;font-family:var(--font-d);font-weight:var(--dw);font-style:var(--ds);text-transform:var(--dc);color:var(--head);font-size:clamp(12px,1.3vw,17px);line-height:1.05;letter-spacing:.01em;text-shadow:0 1px 8px var(--label-halo,rgba(0,0,0,.8))}
+.pipe-node small{display:none;font-size:clamp(9px,.8vw,11px);color:var(--gray-3);line-height:1.2;text-shadow:0 1px 6px var(--label-halo,rgba(0,0,0,.8))}
+.pipe-node.on{transform:translate(-50%,-50%) scale(1.1)}
+.pipe-node.on .pi{border-color:var(--orb);color:var(--orb);box-shadow:0 0 0 5px rgba(var(--orb-rgb),.22),0 0 26px 4px rgba(var(--orb-rgb),.7),0 0 60px 10px rgba(var(--orb-rgb),.25)}
+.pipe-node.on .pi::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--orb);animation:ping 1s ease-out forwards;pointer-events:none}
+@keyframes ping{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.9);opacity:0}}
+.pipe-core{position:absolute;left:50%;top:50%;width:33%;transform:translate(-50%,-50%);text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
+.pipe-k{font-size:clamp(8px,.75vw,10px);font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gray-3)}
+.pipe-t{font-family:var(--font-d);font-weight:var(--dw);font-style:var(--ds);text-transform:var(--dc);color:var(--head);font-size:clamp(15px,1.9vw,27px);line-height:.95}
+.pipe-st{font-size:clamp(9px,.85vw,12px);font-weight:600;line-height:1.3;color:var(--orb);min-height:2.6em;transition:opacity .25s}
+.pipe-st.swap{opacity:0}
+/* skin colors */
+[data-skin="sticky"] .pipe{--orb:#5c4ade;--orb-rgb:92,74,222;--ring:#000;--label-halo:#dceeff}
+[data-skin="sticky"] .pipe-glow{stroke:rgba(77,162,255,.35);stroke-width:5}
+[data-skin="sticky"] .pipe-orb{stroke:#000;stroke-width:.35;filter:none}
+[data-skin="sticky"] .pipe-node .pi{border:1.5px solid #000;color:#000;box-shadow:3px 4px 0 #000}
+[data-skin="sticky"] .pipe-node:nth-of-type(1) .pi{background:#e9ccff}[data-skin="sticky"] .pipe-node:nth-of-type(2) .pi{background:#ffd731}
+[data-skin="sticky"] .pipe-node:nth-of-type(3) .pi{background:#55db9c}[data-skin="sticky"] .pipe-node:nth-of-type(4) .pi{background:#fff}
+[data-skin="sticky"] .pipe-node:nth-of-type(5) .pi{background:#4da2ff}
+[data-skin="sticky"] .pipe-node .n{background:#000;color:#fff;box-shadow:0 0 0 2px #dceeff}
+[data-skin="sticky"] .pipe-node small{color:#222}
+[data-skin="sticky"] .pipe-node.on .pi{color:#000;border-color:#000;box-shadow:3px 4px 0 #000,0 0 0 6px rgba(92,74,222,.35),0 0 28px 6px rgba(92,74,222,.45)}
+[data-skin="sticky"] .pipe-core{background:#fff;border:1px solid #000;border-radius:24px;padding:12px 8px;width:34%}
+[data-skin="sticky"] .pipe-k{color:#000}
+[data-skin="pink"] .pipe{--orb:#ffc7c6;--orb-rgb:255,199,198;--ring:rgba(255,199,198,.35);--node-hi:#7a0630;--node-bg2:#260212;--node-ring:#ffc7c6;--node-ic:#ffc7c6;--label-halo:#260212}
+[data-skin="pink"] .pipe-node.on .pi{box-shadow:0 0 0 5px rgba(255,199,198,.2),0 0 26px 4px rgba(225,6,0,.75),0 0 60px 10px rgba(225,6,0,.3)}
+[data-skin="pink"] .pipe-node b{font-size:clamp(13px,1.35vw,18px)}
+[data-skin="izzy"] .pipe{--orb:#ffd23f;--orb-rgb:255,210,63;--ring:rgba(255,255,255,.55);--node-hi:#fff;--node-bg2:#e4f8eb;--node-ring:#fff;--node-ic:#22b455;--label-halo:rgba(12,80,40,.55)}
+[data-skin="izzy"] .pipe-node .pi{box-shadow:0 6px 0 rgba(12,59,34,.25)}
+[data-skin="izzy"] .pipe-node .n{background:#ffd23f;color:#0c3b22;box-shadow:0 0 0 2px #1aa96a}
+[data-skin="izzy"] .pipe-node.on .pi{background:#ffd23f;color:#0c3b22;border-color:#fff;box-shadow:0 6px 0 rgba(12,59,34,.25),0 0 0 6px rgba(255,255,255,.3),0 0 30px 6px rgba(255,210,63,.7)}
+[data-skin="izzy"] .pipe-st{color:#ffe98a}
 @media(min-width:901px) and (max-height:800px){.hero .label{font-size:10px}.hero-sub{font-size:15.5px;line-height:1.45}.hero .btn-row .btn{padding:14px 24px}}
-@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-person{order:-1;width:min(64%,300px);margin:0 auto -6px}}
-[data-skin="pink"] .hero .cd-boxes span,[data-skin="pink"] .hero .cd-boxes span+span{border:1px solid rgba(255,199,198,.45);border-radius:14px}
-[data-skin="izzy"] .hero-person::before{background:radial-gradient(circle,rgba(255,255,255,.45),transparent 68%)}
-[data-skin="sticky"] .hero-person::before{background:radial-gradient(circle,rgba(255,255,255,.9),transparent 66%)}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.pipe{order:-1;width:min(100%,380px)}}
+@media(max-width:420px){.pipe-node small{display:none}.pipe-node{width:30%}}
 
 /* countdown */
 .cd{display:flex;flex-direction:column;gap:10px;margin-top:22px}
@@ -351,7 +401,8 @@ footer{border-top:1px solid var(--line);padding:28px 0;background:var(--bg-deep)
 .deco{position:absolute;display:block;animation:bob var(--dur,6s) ease-in-out infinite;animation-delay:var(--delay,0s)}
 .deco svg{display:block;width:100%;height:auto;overflow:visible}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-14px) rotate(calc(var(--r,0deg) + 4deg))}}
-.d-coin{width:clamp(80px,8vw,130px);top:46%;right:2%;--r:-12deg;--dur:5.5s}
+.d-coin{width:clamp(80px,7vw,120px);top:58%;right:1%;--r:-12deg;--dur:5.5s}
+@media(max-width:1500px){.d-coin{display:none}}
 .d-burst{width:clamp(90px,9vw,150px);top:90px;right:3%;--r:10deg;--dur:7s;--delay:-1s}
 .d-bolt{width:clamp(56px,5.5vw,86px);bottom:12%;left:3%;--r:14deg;--dur:6s;--delay:-4s}
 .d-check{width:clamp(56px,5.5vw,86px);bottom:12%;right:3%;--r:-8deg;--dur:5s;--delay:-3s}
@@ -575,9 +626,21 @@ footer{border-top:1px solid var(--line);padding:28px 0;background:var(--bg-deep)
         </div>
         <div class="price-line rv d3"><span>Regular <s>$77/mo</s></span><b>$19/mo</b><span>Locked for life</span></div>
       </div>
-      <figure class="hero-person rv d2">
-        <img src="assets/pop-girl.webp" width="721" height="963" alt="An excited creator in a We'll Make It Pop! t-shirt">
-      </figure>
+      <div class="pipe rv d2" id="pipe" role="img" aria-label="The Daily Pop pipeline: a 48-hour AI scan feeds the intel drop, which becomes the daily brief, then a web page, then a Skool post, and it loops every day.">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <circle class="pipe-glow" cx="50" cy="50" r="36"/>
+          <circle class="pipe-ring" cx="50" cy="50" r="36"/>
+        </svg>
+        <div class="pipe-node" data-say="Scanning the last 48 hours of AI news"><span class="n">1</span><span class="pi"><i data-lucide="radar"></i></span><b>48-Hour Scan</b><small>What moved in AI</small></div>
+        <div class="pipe-node" data-say="Filing what matters in the Intel Drop"><span class="n">2</span><span class="pi"><i data-lucide="inbox"></i></span><b>Intel Drop</b><small>Filed for the brief</small></div>
+        <div class="pipe-node" data-say="Writing the brief in plain words"><span class="n">3</span><span class="pi"><i data-lucide="pen-line"></i></span><b>Daily Brief</b><small>Written for beginners</small></div>
+        <div class="pipe-node" data-say="Turning the brief into a web page"><span class="n">4</span><span class="pi"><i data-lucide="layout-template"></i></span><b>Brief Page</b><small>Built as a web page</small></div>
+        <div class="pipe-node" data-say="Ready for Skool. You hit Post."><span class="n">5</span><span class="pi"><i data-lucide="send"></i></span><b>Skool Post</b><small>You hit Post</small></div>
+        <div class="pipe-core">
+          <span class="pipe-t">The Daily <span class="pop">Pop!</span></span>
+          <span class="pipe-st" aria-live="off">Scanning the last 48 hours of AI news</span>
+        </div>
+      </div>
     </div>
     <div class="wrap">
       <div class="cd hero-cd rv d3" data-countdown><span class="cd-label">This week's Lock closes in</span><div class="cd-boxes"><span><b data-u="d">0</b>Days</span><span><b data-u="h">00</b>Hrs</span><span><b data-u="m">00</b>Min</span><span><b data-u="s">00</b>Sec</span></div></div>
@@ -856,6 +919,62 @@ window.startRibbon=(function(){
   }
 })();
 if(document.documentElement.getAttribute('data-skin')==='sticky')startRibbon();
+// HERO PIPELINE: orbs run the loop, steps light up as they pass
+(function(){
+  var pipe=document.getElementById('pipe');if(!pipe)return;
+  var NS='http://www.w3.org/2000/svg',svg=pipe.querySelector('svg'),R=36,
+      nodes=[].slice.call(pipe.querySelectorAll('.pipe-node')),N=nodes.length,
+      st=pipe.querySelector('.pipe-st'),reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,LAP=13000,last=-1,orbs=[];
+  // Obsidian-graph web: faint chords between steps, little linked "notes" around each one
+  var web=document.createElementNS(NS,'g');web.setAttribute('class','pipe-web');svg.insertBefore(web,svg.firstChild);
+  function el(tag,cls){var e=document.createElementNS(NS,tag);e.setAttribute('class',cls);web.appendChild(e);return e;}
+  var chords=[],sats=[],seed=7;function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647;}
+  for(var i=0;i<N;i++)for(var j=i+2;j<N;j++){if(i===0&&j===N-1)continue;chords.push({a:i,b:j,l:el('line','pipe-chord')});}
+  for(var i=0;i<N;i++)for(var s=0;s<3;s++){
+    var sat={n:i,da:(rnd()-.5)*110,dr:7+rnd()*4,ph:rnd()*6.28,sp:.4+rnd()*.6,r:.55+rnd()*.7};
+    sat.l=el('line','pipe-link');sat.c=el('circle','pipe-dot');sat.c.setAttribute('r',sat.r.toFixed(2));sats.push(sat);
+  }
+  for(var s=0;s<sats.length;s++){var o=sats[s];if(s%5===0){var m=sats[(s+4)%sats.length];o.x2=m;o.l2=el('line','pipe-link');}}
+  function placeNodes(phi){
+    var P=[];nodes.forEach(function(n,i){var a=(-90+i*360/N+phi)*Math.PI/180,x=50+R*Math.cos(a),y=50+R*Math.sin(a);P.push([x,y,a]);n.style.left=x+'%';n.style.top=y+'%';});
+    return P;
+  }
+  function drawWeb(P,ts){
+    chords.forEach(function(c){c.l.setAttribute('x1',P[c.a][0]);c.l.setAttribute('y1',P[c.a][1]);c.l.setAttribute('x2',P[c.b][0]);c.l.setAttribute('y2',P[c.b][1]);});
+    sats.forEach(function(o){
+      var base=P[o.n],ang=base[2]+(o.da+Math.sin(ts*o.sp+o.ph)*8)*Math.PI/180,rr=o.dr+Math.sin(ts*o.sp*1.3+o.ph)*1.2;
+      o.x=base[0]+rr*Math.cos(ang);o.y=base[1]+rr*Math.sin(ang);
+      o.c.setAttribute('cx',o.x.toFixed(2));o.c.setAttribute('cy',o.y.toFixed(2));
+      o.l.setAttribute('x1',base[0]);o.l.setAttribute('y1',base[1]);o.l.setAttribute('x2',o.x.toFixed(2));o.l.setAttribute('y2',o.y.toFixed(2));
+    });
+    sats.forEach(function(o){if(o.l2){o.l2.setAttribute('x1',o.x.toFixed(2));o.l2.setAttribute('y1',o.y.toFixed(2));o.l2.setAttribute('x2',o.x2.x.toFixed(2));o.l2.setAttribute('y2',o.x2.y.toFixed(2));}});
+  }
+  var SPIN=90000;drawWeb(placeNodes(0),0);
+  for(var k=0;k<2;k++){
+    var g=document.createElementNS(NS,'g'),trail=[];
+    for(var j=7;j>=1;j--){var c=document.createElementNS(NS,'circle');c.setAttribute('class','pipe-trail');c.setAttribute('r',(1.7-j*.17).toFixed(2));c.style.opacity=((1-j/8)*.55).toFixed(2);g.appendChild(c);trail.push(c);}
+    var o=document.createElementNS(NS,'circle');o.setAttribute('class','pipe-orb');o.setAttribute('r','1.9');g.appendChild(o);svg.appendChild(g);
+    orbs.push({o:o,trail:trail,off:k/2});
+  }
+  var phi=0;
+  function at(t){var a=(-90+t*360+phi)*Math.PI/180;return [50+R*Math.cos(a),50+R*Math.sin(a)];}
+  function say(i){if(i===last)return;last=i;st.classList.add('swap');setTimeout(function(){st.textContent=nodes[i].dataset.say;st.classList.remove('swap');},220);}
+  if(reduce){nodes.forEach(function(n){n.classList.add('on')});orbs.forEach(function(ob){var p=at(ob.off);ob.o.setAttribute('cx',p[0]);ob.o.setAttribute('cy',p[1]);});return;}
+  var t0=null;
+  function frame(ms){
+    if(t0===null)t0=ms;var base=((ms-t0)%LAP)/LAP,lit={};
+    phi=((ms-t0)%SPIN)/SPIN*360;drawWeb(placeNodes(phi),(ms-t0)/1000);
+    orbs.forEach(function(ob){
+      var t=(base+ob.off)%1,p=at(t);ob.o.setAttribute('cx',p[0].toFixed(2));ob.o.setAttribute('cy',p[1].toFixed(2));
+      ob.trail.forEach(function(c,j){var q=at((t-(7-j)*.007+1)%1);c.setAttribute('cx',q[0].toFixed(2));c.setAttribute('cy',q[1].toFixed(2));});
+      var deg=t*360;for(var i=0;i<N;i++){var d=Math.abs(((deg-i*360/N)%360+540)%360-180);if(d<10)lit[i]=1;}
+    });
+    nodes.forEach(function(n,i){n.classList.toggle('on',!!lit[i])});
+    say(Math.floor(((base*360+10)%360)/(360/N)));
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
 // THE DIAL
 (function(){
   var root=document.documentElement,dial=document.getElementById('dial'),face=document.getElementById('knobFace'),
