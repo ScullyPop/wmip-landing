@@ -110,6 +110,17 @@ header{position:fixed;inset:0 0 auto 0;z-index:50;background:var(--hdr-bg);backd
 .hero-shot .cap{position:absolute;left:0;bottom:0;background:var(--acc);color:var(--on-acc);font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:8px 12px}
 @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-shot{order:-1}}
 
+/* hero person: cut-out, no box */
+.hero-grid{grid-template-columns:1.1fr .9fr}
+.hero-person{position:relative;justify-self:center;align-self:end;width:min(100%,500px);margin-bottom:calc(-1 * clamp(8px,2vw,24px))}
+.hero-person::before{content:"";position:absolute;inset:8% 4% 10%;border-radius:50%;background:radial-gradient(circle,rgba(var(--acc-rgb),.42),transparent 68%);filter:blur(6px);z-index:-1}
+.hero-person img{width:100%;height:auto;-webkit-mask-image:linear-gradient(to bottom,#000 78%,transparent 99%);mask-image:linear-gradient(to bottom,#000 78%,transparent 99%);filter:drop-shadow(0 18px 30px rgba(0,0,0,.28))}
+.hero-grid{position:relative;z-index:1}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-person{order:-1;width:min(64%,300px);margin:0 auto -6px}}
+[data-skin="pink"] .hero .cd-boxes span,[data-skin="pink"] .hero .cd-boxes span+span{border:1px solid rgba(255,199,198,.45);border-radius:14px}
+[data-skin="izzy"] .hero-person::before{background:radial-gradient(circle,rgba(255,255,255,.45),transparent 68%)}
+[data-skin="sticky"] .hero-person::before{background:radial-gradient(circle,rgba(255,255,255,.9),transparent 66%)}
+
 /* countdown */
 .cd{display:flex;flex-direction:column;gap:10px;margin-top:22px}
 .cd-label{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--acc)}
@@ -119,16 +130,19 @@ header{position:fixed;inset:0 0 auto 0;z-index:50;background:var(--hdr-bg);backd
 .cd-boxes b{font-size:28px;line-height:1.1;color:var(--head);font-variant-numeric:tabular-nums}
 .cd.center{align-items:center}
 /* bigger in the hero, and a glow that runs box to box, then loops */
-.hero .cd{margin-top:28px;gap:12px}
-.hero .cd-label{font-size:12px}
-.hero .cd-boxes span{min-width:clamp(74px,8.6vw,112px);padding:14px 10px 12px;font-size:11px}
-.hero .cd-boxes b{font-size:clamp(38px,4.6vw,60px);line-height:1}
+.hero .cd{align-items:center;text-align:center;margin:clamp(36px,5vw,64px) auto 0;gap:20px}
+.hero .cd-label{font-size:clamp(12px,1.3vw,16px)}
+.hero .cd-boxes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,2.2vw,28px);width:min(920px,100%);border:0;overflow:visible}
+.hero .cd-boxes span,.hero .cd-boxes span+span{min-width:0;padding:clamp(16px,2.4vw,30px) 6px clamp(12px,1.8vw,22px);font-size:clamp(10px,1.1vw,14px);border:1px solid var(--acc)}
+.hero .cd-boxes b{font-size:clamp(48px,9.4vw,132px);line-height:1}
+.hero .cd-boxes span:nth-child(odd){rotate:-2deg}
+.hero .cd-boxes span:nth-child(even){rotate:1.8deg;translate:0 10px}
 .cd-boxes span{position:relative;--cd-shadow:0 0 0 transparent;box-shadow:var(--cd-shadow);animation:chase 4s ease-in-out infinite}
 .cd-boxes span:nth-child(2){animation-delay:1s}.cd-boxes span:nth-child(3){animation-delay:2s}.cd-boxes span:nth-child(4){animation-delay:3s}
 @keyframes chase{
   0%,32%,100%{box-shadow:var(--cd-shadow);z-index:0}
   8%,22%{box-shadow:var(--cd-shadow),inset 0 0 0 2px rgba(var(--acc-rgb),1),0 0 18px 2px rgba(var(--acc-rgb),.75),0 0 40px 6px rgba(var(--acc-rgb),.35);z-index:1}}
-@media(max-width:420px){.cd-boxes span{min-width:58px}.cd-boxes b{font-size:22px}.hero .cd-boxes span{min-width:66px}.hero .cd-boxes b{font-size:34px}}
+@media(max-width:420px){.cd-boxes span{min-width:58px}.cd-boxes b{font-size:22px}.hero .cd-boxes{gap:9px}.hero .cd-boxes b{font-size:40px}}
 
 /* ticker */
 .ticker{background:var(--acc);overflow:hidden;padding:14px 0;border-bottom:1px solid var(--acc-deep)}
@@ -336,11 +350,12 @@ footer{border-top:1px solid var(--line);padding:28px 0;background:var(--bg-deep)
 .deco{position:absolute;display:block;animation:bob var(--dur,6s) ease-in-out infinite;animation-delay:var(--delay,0s)}
 .deco svg{display:block;width:100%;height:auto;overflow:visible}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-14px) rotate(calc(var(--r,0deg) + 4deg))}}
-.d-coin{width:clamp(80px,9vw,140px);top:clamp(70px,11%,120px);right:clamp(16px,34%,460px);--r:-12deg;--dur:5.5s}
-.d-burst{width:clamp(90px,10vw,160px);top:clamp(64px,9%,110px);right:1.5%;--r:10deg;--dur:7s;--delay:-1s}
-.d-bolt{width:clamp(56px,5.5vw,86px);bottom:9%;right:31%;--r:14deg;--dur:6s;--delay:-4s}
-.d-check{width:clamp(56px,5.5vw,86px);bottom:8%;right:4%;--r:-8deg;--dur:5s;--delay:-3s}
-@media(max-width:900px){.d-coin{top:70px;right:auto;left:3%}.d-bolt,.d-check{display:none}}
+.d-coin{width:clamp(80px,8vw,130px);top:46%;right:2%;--r:-12deg;--dur:5.5s}
+.d-burst{width:clamp(90px,9vw,150px);top:90px;right:3%;--r:10deg;--dur:7s;--delay:-1s}
+.d-bolt{width:clamp(56px,5.5vw,86px);bottom:12%;left:3%;--r:14deg;--dur:6s;--delay:-4s}
+.d-check{width:clamp(56px,5.5vw,86px);bottom:12%;right:3%;--r:-8deg;--dur:5s;--delay:-3s}
+@media(max-width:1240px){.d-bolt,.d-check{display:none}}
+@media(max-width:900px){.d-coin{top:80px;right:auto;left:3%}.d-burst{top:80px}}
 
 /* =====================================================================
    SKIN 3 · IMPOSSIBLE FOODS — deep wine, blush pink, poster red,
@@ -374,6 +389,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;background:var(--bg-deep)
 [data-skin="pink"] .cd-boxes span{background:var(--panel)}
 [data-skin="pink"] .cd-boxes span+span{border-left:1px solid #000}
 [data-skin="pink"] .cd-boxes b{font-size:30px}
+[data-skin="pink"] .hero .cd-boxes b{font-size:clamp(52px,10.4vw,146px);line-height:.95}
 [data-skin="pink"] .ticker{background:#000;border:0}
 [data-skin="pink"] .ticker-track{color:#ffc7c6;font-size:20px}
 [data-skin="pink"] .lattice{background:transparent;border:0;gap:12px}
@@ -557,12 +573,13 @@ footer{border-top:1px solid var(--line);padding:28px 0;background:var(--bg-deep)
           <a class="btn btn-ghost" href="#shift">See The Shift</a>
         </div>
         <div class="price-line rv d3"><span>Regular <s>$77/mo</s></span><b>$19/mo</b><span>Locked for life</span></div>
-        <div class="cd rv d3" data-countdown><span class="cd-label">This week's Lock closes in</span><div class="cd-boxes"><span><b data-u="d">0</b>Days</span><span><b data-u="h">00</b>Hrs</span><span><b data-u="m">00</b>Min</span><span><b data-u="s">00</b>Sec</span></div></div>
       </div>
-      <figure class="hero-shot rv d2 ticked">
-        <img src="assets/studio-dark.jpg" width="1600" height="900" alt="We'll Make It POP! in white over a red burst, surrounded by cameras, mics and an editing timeline">
-        <figcaption class="cap">The control room is open</figcaption>
+      <figure class="hero-person rv d2">
+        <img src="assets/pop-girl.webp" width="721" height="963" alt="An excited creator in a We'll Make It Pop! t-shirt">
       </figure>
+    </div>
+    <div class="wrap">
+      <div class="cd hero-cd rv d3" data-countdown><span class="cd-label">This week's Lock closes in</span><div class="cd-boxes"><span><b data-u="d">0</b>Days</span><span><b data-u="h">00</b>Hrs</span><span><b data-u="m">00</b>Min</span><span><b data-u="s">00</b>Sec</span></div></div>
     </div>
   </section>
 
